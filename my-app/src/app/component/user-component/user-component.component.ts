@@ -4,7 +4,7 @@ import {User} from '../../model/user';
 @Component({
   selector: 'app-user-component',
   templateUrl: './user-component.component.html',
-  styleUrls: ['./user-component.component.css']
+  styleUrls: ['./user-component.component.scss']
 })
 export class UserComponentComponent implements OnInit {
 

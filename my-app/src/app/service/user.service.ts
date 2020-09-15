@@ -1,41 +1,32 @@
 import { Injectable } from '@angular/core';
 import {User} from "../model/user";
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   users: User[] = [
-    {
-      firstName: 'Vasya',
-      lastName: 'Pupkin',
-      age: 20,
-      city: 'Berlin'
-    },
-    {
-      firstName: 'John',
-      lastName: 'Connor',
-      age: 35,
-      city: 'Los Angeles'
-    }
   ];
 
-  constructor() {
+  constructor(private httpClient: HttpClient) {
+
   }
 
-  getUsers(): User [] {
-    return this.users;
+  getUsers(): Observable<User []> {
+    return this.httpClient.get<User[]>('assets/users.json');
   }
-
-  getFilteredUsers(filter: User): User[] {
+  getUserById(id: string): User {
+    return this.user.find
+  }
+  getFilteredUsers(filter:{ key: string, value: any }[]): User[] {
     const filteredUsers: User[] = [];
     this.getUsers().forEach(user => {
-      Object.keys(filter).forEach(key => {
-        if (filter[key] !== null) {
-          if (user[key].toString() === filter[key].toString()) {
+      filter.forEach(element => {
+          if (user[element.key].toString() === element.value.toString()) {
             filteredUsers.push(user);
           }
-        }
       });
     });
     return filteredUsers;

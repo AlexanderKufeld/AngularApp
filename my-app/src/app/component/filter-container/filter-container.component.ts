@@ -6,10 +6,13 @@ import {UserService} from "../../service/user.service";
 @Component({
   selector: 'app-filter-container',
   templateUrl: './filter-container.component.html',
-  styleUrls: ['./filter-container.component.css']
+  styleUrls: ['./filter-container.component.scss']
 })
 export class FilterContainerComponent implements OnInit {
   users: User[];
+  user: User;
+
+
   filterObject: User = {
     firstName: null,
     lastName: null,
@@ -22,11 +25,15 @@ export class FilterContainerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const filter = [];
     this.route.params.subscribe(params => {
+      if (params.id){
+        this.user = this.userService.getUserById(params.id);
+      }else{
       Object.keys(params).forEach((key) =>
-        this.filterObject[key] = params[key]
+        filter.push({key:key, value: params[key]})
       );
-      this.users = this.userService.getFilteredUsers(this.filterObject);
+      this.users = this.userService.getFilteredUsers(filter);
     });
   }
 }
